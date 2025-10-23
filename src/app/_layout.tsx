@@ -18,8 +18,7 @@ export default function RootLayout() {
                 />
             </Stack.Protected>
 
-
-
+             
         </Stack>
     )
 }
