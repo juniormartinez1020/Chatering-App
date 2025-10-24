@@ -8,7 +8,7 @@ export type Channel = {
 
 export type Message = {
     id: string
-    created_at: string
+    createdAt: string
     content: string
     sender?: User 
     image?: string
