@@ -16,7 +16,8 @@ export default function MessageList() {
        isOwnMsj={item.user.id === isMyId}
        />
     }
-    contentInsetAdjustmentBehavior="automatic"
+    inverted
+    showsVerticalScrollIndicator={false}
        />
     )
 }
