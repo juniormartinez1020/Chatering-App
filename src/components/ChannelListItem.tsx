@@ -1,6 +1,7 @@
 import { Channel } from "@/app/types";
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { formatDistanceToNow } from 'date-fns'
+import { Link } from "expo-router";
 
 type ChannelListItemProps = {
     channel: Channel
@@ -8,7 +9,11 @@ type ChannelListItemProps = {
 
 export default function ChannelListItem({ channel }: ChannelListItemProps) {
     return (
-        <View
+        <Link
+        href={`/channel/${channel.id}`}
+        asChild
+        >
+          <Pressable
         className="flex-row gap-3 p-4 border-b border-gray-200"
         >
             {/* channel img */}
@@ -46,6 +51,7 @@ export default function ChannelListItem({ channel }: ChannelListItemProps) {
                  }
              </Text>
            )}
-        </View>
+         </Pressable>
+        </Link>
     )
 }
