@@ -1,18 +1,20 @@
+import MessageList from "@/components/MessageList";
 import channels from "@/data/channels";
+import messages from "@/data/messages";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 
 export default function ChannelScreen() {
 
-    const { id } = useLocalSearchParams()
+    const { id } = useLocalSearchParams<{ id: string }>()
 
     const channel = channels.find((c) => c.id === id)
 
 
     if (channel) {
-        <View>
+            <View>
             <Text>channel not founded</Text>
-        </View>
+           </View>
     }
 
     return (
@@ -23,9 +25,7 @@ export default function ChannelScreen() {
             options={{ title: channel.name }}
             />
 
-            <Text className="text-2xl">
-                channel screen: {channel.name}
-            </Text>
+            <MessageList />
         </View>
     )
 }
