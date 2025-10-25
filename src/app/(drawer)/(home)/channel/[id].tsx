@@ -1,3 +1,4 @@
+import MessageInput from "@/components/MessageInput";
 import MessageList from "@/components/MessageList";
 import channels from "@/data/channels";
 import messages from "@/data/messages";
@@ -26,6 +27,7 @@ export default function ChannelScreen() {
             />
 
             <MessageList />
+            <MessageInput />
         </View>
     )
 }
