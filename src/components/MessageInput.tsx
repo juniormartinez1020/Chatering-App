@@ -1,30 +1,73 @@
-import {  KeyboardAvoidingView, Platform, Pressable, TextInput, View } from "react-native";
+import {  Image, KeyboardAvoidingView, Platform, Pressable, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState } from "react";
+import * as ImagePicker from 'expo-image-picker'
 
 export default function MessageInput() {
 
     const [message, setMessage] = useState('')
+
+    const [image, setImage] = useState<string | null>(null)
 
     const handleSend = () => {
         // store the db
         console.log('send msj')
 
         setMessage('')
+        setImage(null)
     }
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ['images'],
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+        }
+      };
+
+      const isMsjEmpty = !message && !image
 
     return (
         <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={80}
         >
-            <SafeAreaView
+        <SafeAreaView
         edges={['bottom']}
-         className="p-4 flex-row gap-4 bg-slate-50 border-t border-gray-200 items-center"
+         className="p-4  gap-4 bg-slate-50 border-t border-gray-200"
          >
 
+          {image && (
+            <View className="w-32 h-32">
+                <Image source={{ uri: image }} className="w-full h-full" />
+                <Pressable
+                onPress={() => setImage(null)}
+                className="absolute -top-2 -right-2 bg-slate-300 w-6 h-6 items-center
+                justify-center rounded-full"
+                >
+                    <Ionicons
+                    name="close"
+                    size={15}
+                    color='gray'
+                    />
+                </Pressable>
+            </View>
+          )}
+
+         <View
+         className="flex-row items-center gap-2"
+         >
            <Pressable
+           onPress={pickImage}
            className="bg-gray-200 rounded-full p-2 w-10 h-10"
            >
              <Ionicons
@@ -46,8 +89,8 @@ export default function MessageInput() {
 
            <Pressable
            onPress={handleSend}
-           disabled={!message}
-           className={`${message ? 'bg-blue-500' : 'bg-slate-300'} 
+           disabled={isMsjEmpty}
+           className={`${isMsjEmpty ? 'bg-blue-500' : 'bg-slate-300'} 
            rounded-full p-2 w-10 h-10
            items-center justify-center`}
            >
@@ -56,7 +99,9 @@ export default function MessageInput() {
              size={20}
              color='#6b5280'
              />
-           </Pressable>
+            </Pressable>
+           </View>
+         
           </SafeAreaView>
         </KeyboardAvoidingView>
     )
